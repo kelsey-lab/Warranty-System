@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warranty Expired - French Roofing LLC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary-dark: #1a1f2e;
+            --primary-orange: #ff6b35;
+            --accent-yellow: #ffd23f;
+            --steel-gray: #4a5568;
+            --light-gray: #f7fafc;
+            --danger-red: #fc8181;
+            --danger-dark: #c53030;
+            --text-primary: #2d3748;
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: linear-gradient(135deg, #2d3748 0%, #1a1f2e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background with warning pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(252, 129, 129, 0.02) 50px, rgba(252, 129, 129, 0.02) 100px);
+            pointer-events: none;
+            animation: slideWarning 10s linear infinite;
+        }
+        
+        @keyframes slideWarning {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100px); }
+        }
+        
+        .expired-container {
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .expired-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+            animation: slideDown 0.6s ease-out;
+        }
+        
+        @keyframes slideDown {
+            0% {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .expired-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--danger-red) 0%, var(--primary-orange) 100%);
+        }
+        
+        .expired-header {
+            padding: 40px 30px;
+            background: linear-gradient(135deg, var(--danger-dark) 0%, var(--danger-red) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .expired-header::after {
+            content: '⚠️';
+            position: absolute;
+            right: -30px;
+            top: -30px;
+            font-size: 120px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+        
+        .expired-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            animation: shake 0.8s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px) rotate(-5deg); }
+            75% { transform: translateX(10px) rotate(5deg); }
+        }
+        
+        .expired-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 36px;
+            color: white;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .expired-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .expired-body {
+            padding: 40px 30px;
+        }
+        
+        .warranty-summary {
+            background: #fff5f5;
+            border: 2px solid #feb2b2;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #fed7d7;
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-label {
+            color: var(--steel-gray);
+            font-size: 14px;
+        }
+        
+        .summary-value {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .expired-date {
+            color: var(--danger-dark);
+            font-weight: 700;
+        }
+        
+        .renewal-section {
+            margin-top: 30px;
+        }
+        
+        .renewal-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 28px;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        
+        .renewal-text {
+            color: var(--text-primary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .offer-card {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px solid #86efac;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .offer-card::before {
+            content: '🎉';
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 30px;
+            opacity: 0.5;
+        }
+        
+        .offer-badge {
+            display: inline-block;
+            background: #22c55e;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .offer-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+        
+        .offer-description {
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-renew {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+        }
+        
+        .btn-renew::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-renew:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .btn-renew:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+        }
+        
+        .btn-inspection {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, #ff8c5a 100%);
+            color: white;
+        }
+        
+        .btn-inspection:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+        }
+        
+        .btn-contact {
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid #e2e8f0;
+        }
+        
+        .btn-contact:hover {
+            background: var(--light-gray);
+            border-color: var(--steel-gray);
+        }
+        
+        .urgency-notice {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 25px;
+            padding: 16px;
+            background: #fef2f2;
+            border-left: 4px solid var(--danger-red);
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .urgency-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .urgency-text {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        .urgency-text strong {
+            color: var(--danger-dark);
+        }
+        
+        .logo-footer {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .logo-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: var(--primary-dark);
+            letter-spacing: 1px;
+        }
+        
+        .logo-tagline {
+            color: var(--steel-gray);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="expired-container">
+        <div class="expired-card">
+            <div class="expired-header">
+                <div class="expired-icon">⏰</div>
+                <h1 class="expired-title">Warranty Expired</h1>
+                <p class="expired-subtitle">Your 5-year roofing warranty has ended</p>
+            </div>
+            
+            <div class="expired-body">
+                <div class="warranty-summary">
+                    <div class="summary-row">
+                        <span class="summary-label">Property Address</span>
+                        <span class="summary-value" id="propertyAddress">123 Main Street, Portland, OR</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Original Installation</span>
+                        <span class="summary-value" id="installDate">January 15, 2019</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Warranty Period</span>
+                        <span class="summary-value">5 Years</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Expired On</span>
+                        <span class="summary-value expired-date" id="expiredDate">January 15, 2024</span>
+                    </div>
+                </div>
+                
+                <div class="renewal-section">
+                    <h2 class="renewal-title">Protect Your Investment</h2>
+                    <p class="renewal-text">
+                        Your roof has been protecting your home for 5+ years. Now it's time to ensure it continues to perform at its best. Regular maintenance and timely renewals can extend your roof's life by years.
+                    </p>
+                    
+                    <div class="offer-card">
+                        <span class="offer-badge">Limited Time Offer</span>
+                        <h3 class="offer-title">20% Off Warranty Renewal</h3>
+                        <p class="offer-description">
+                            Previous customers receive exclusive pricing on warranty renewals. Schedule your free inspection today and save on your next 5-year protection plan.
+                        </p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <a href="#" class="btn btn-renew">
+                            <span>🔄</span>
+                            Renew Warranty Now
+                        </a>
+                        <a href="#" class="btn btn-inspection">
+                            <span>🔍</span>
+                            Schedule Free Inspection
+                        </a>
+                        <a href="#" class="btn btn-contact">
+                            <span>📞</span>
+                            Contact Us: (503) 555-0100
+                        </a>
+                    </div>
+                    
+                    <div class="urgency-notice">
+                        <div class="urgency-icon">⚠️</div>
+                        <div class="urgency-text">
+                            <strong>Important:</strong> Without active warranty coverage, repair costs are no longer covered. Small issues can quickly become expensive problems. Schedule your inspection within 30 days to qualify for renewal discounts.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="logo-footer">
+                    <div class="logo-text">FRENCH ROOFING LLC</div>
+                    <div class="logo-tagline">Protecting homes since 2019</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Get address from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const address = urlParams.get('address');
+        if (address) {
+            document.getElementById('propertyAddress').textContent = decodeURIComponent(address);
+        }
+        
+        // Calculate and display dates (mock data for demo)
+        const expiredDate = new Date();
+        expiredDate.setDate(expiredDate.getDate() - 30); // Expired 30 days ago
+        const installDate = new Date(expiredDate);
+        installDate.setFullYear(installDate.getFullYear() - 5);
+        
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('installDate').textContent = installDate.toLocaleDateString('en-US', options);
+        document.getElementById('expiredDate').textContent = expiredDate.toLocaleDateString('en-US', options);
+        
+        // Add click handlers for demo
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.classList.contains('btn-contact')) {
+                    // Allow default action for contact button
+                    return;
+                }
+                e.preventDefault();
+                
+                // In production, these would trigger N8N webhooks
+                if (this.classList.contains('btn-renew')) {
+                    alert('Redirecting to warranty renewal form...');
+                    // window.location.href = 'warranty-renewal.html';
+                } else if (this.classList.contains('btn-inspection')) {
+                    alert('Redirecting to inspection scheduling...');
+                    // window.location.href = 'schedule-inspection.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

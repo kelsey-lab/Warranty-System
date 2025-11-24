@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warranty Status Tracker - French Roofing LLC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary-dark: #1a1f2e;
+            --primary-orange: #ff6b35;
+            --accent-yellow: #ffd23f;
+            --steel-gray: #4a5568;
+            --light-gray: #f7fafc;
+            --success-green: #48bb78;
+            --warning-yellow: #f6e05e;
+            --danger-red: #fc8181;
+            --text-primary: #2d3748;
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Grid pattern background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 107, 53, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 107, 53, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tracker-header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo-main {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 48px;
+            color: var(--primary-orange);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+        }
+        
+        .header-subtitle {
+            color: #cbd5e0;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .tracker-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .search-section {
+            padding: 40px;
+            background: linear-gradient(135deg, #f7fafc 0%, white 100%);
+        }
+        
+        .search-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 32px;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .search-description {
+            color: var(--steel-gray);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .search-input-wrapper {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Work Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            opacity: 0.5;
+        }
+        
+        .search-btn {
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, #ff8c5a 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+        }
+        
+        .search-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Warranty Results Section - Initially Hidden */
+        .warranty-result {
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .warranty-result.active {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .result-header {
+            padding: 30px;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #2d3748 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .result-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .warranty-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+        
+        .status-active {
+            background: var(--success-green);
+            color: white;
+        }
+        
+        .status-expiring {
+            background: var(--warning-yellow);
+            color: var(--primary-dark);
+        }
+        
+        .status-expired {
+            background: var(--danger-red);
+            color: white;
+        }
+        
+        .customer-name {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .customer-address {
+            color: #cbd5e0;
+            font-size: 16px;
+        }
+        
+        .result-body {
+            padding: 30px;
+        }
+        
+        .warranty-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .info-card {
+            background: var(--light-gray);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .info-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .info-label {
+            color: var(--steel-gray);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            color: var(--primary-dark);
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .progress-section {
+            margin-top: 30px;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-orange) 0%, var(--accent-yellow) 100%);
+            border-radius: 5px;
+            transition: width 1s ease-out;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .action-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            flex: 1;
+            min-width: 180px;
+            padding: 14px 20px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+        
+        .action-primary {
+            background: var(--primary-orange);
+            color: white;
+        }
+        
+        .action-primary:hover {
+            background: #ff8c5a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .action-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid #e2e8f0;
+        }
+        
+        .action-secondary:hover {
+            background: var(--light-gray);
+        }
+        
+        .no-results {
+            display: none;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .no-results.active {
+            display: block;
+        }
+        
+        .no-results-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .no-results-text {
+            color: var(--text-primary);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .no-results-subtext {
+            color: var(--steel-gray);
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid var(--primary-orange);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 600px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .search-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tracker-header">
+            <h1 class="logo-main">French Roofing LLC</h1>
+            <p class="header-subtitle">Check Your Warranty Status Anytime</p>
+        </div>
+        
+        <div class="tracker-card">
+            <div class="search-section">
+                <h2 class="search-title">Track Your Warranty</h2>
+                <p class="search-description">Enter your property address to check your roofing warranty status</p>
+                
+                <form id="searchForm" class="search-form">
+                    <div class="search-input-wrapper">
+                        <span class="search-icon">🏠</span>
+                        <input 
+                            type="text" 
+                            id="addressSearch" 
+                            class="search-input" 
+                            placeholder="Enter your property address..."
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="search-btn">
+                        Check Status
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p style="color: var(--text-primary);">Searching warranty records...</p>
+            </div>
+            
+            <!-- Warranty Result -->
+            <div id="warrantyResult" class="warranty-result">
+                <div class="result-header">
+                    <span id="statusBadge" class="warranty-status-badge status-active">
+                        <span>✓</span> Active Warranty
+                    </span>
+                    <h3 id="customerName" class="customer-name">John Smith</h3>
+                    <p id="propertyAddress" class="customer-address">123 Main Street, Portland, OR 97201</p>
+                </div>
+                
+                <div class="result-body">
+                    <div class="warranty-info-grid">
+                        <div class="info-card">
+                            <div class="info-icon">📋</div>
+                            <div class="info-label">Warranty Number</div>
+                            <div class="info-value" id="warrantyNumber">WR-2024-12345</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon">📅</div>
+                            <div class="info-label">Installation Date</div>
+                            <div class="info-value" id="installDate">Jan 15, 2024</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon">⏰</div>
+                            <div class="info-label">Expires On</div>
+                            <div class="info-value" id="expiryDate">Jan 15, 2029</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon">🛡️</div>
+                            <div class="info-label">Time Remaining</div>
+                            <div class="info-value" id="timeRemaining">4 years, 2 months</div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>Warranty Coverage</span>
+                            <span id="progressPercent">20% Used</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill" style="width: 20%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-section">
+                        <a href="#" class="action-btn action-primary">
+                            <span>📞</span>
+                            Schedule Inspection
+                        </a>
+                        <a href="#" class="action-btn action-secondary">
+                            <span>📄</span>
+                            Download Certificate
+                        </a>
+                        <a href="#" class="action-btn action-secondary">
+                            <span>💬</span>
+                            Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No Results -->
+            <div id="noResults" class="no-results">
+                <div class="no-results-icon">🔍</div>
+                <p class="no-results-text">No Warranty Found</p>
+                <p class="no-results-subtext">We couldn't find a warranty for this address. Please check the address and try again.</p>
+                <a href="warranty-registration.html" class="search-btn" style="display: inline-block; text-decoration: none;">
+                    Register New Warranty
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const address = document.getElementById('addressSearch').value.trim();
+            if (!address) return;
+            
+            // Hide previous results
+            document.getElementById('warrantyResult').classList.remove('active');
+            document.getElementById('noResults').classList.remove('active');
+            
+            // Show loading
+            document.getElementById('loading').classList.add('active');
+            
+            // Simulate API call to N8N webhook
+            setTimeout(() => {
+                document.getElementById('loading').classList.remove('active');
+                
+                // For demo: Simulate finding a warranty 70% of the time
+                const hasWarranty = Math.random() > 0.3;
+                
+                if (hasWarranty) {
+                    // Mock data - in production this would come from your N8N webhook
+                    const mockData = {
+                        customerName: 'John Smith',
+                        address: address,
+                        warrantyNumber: 'WR-2024-' + Math.floor(Math.random() * 90000 + 10000),
+                        installDate: new Date(2024, 0, 15),
+                        expiryDate: new Date(2029, 0, 15),
+                        isActive: true
+                    };
+                    
+                    displayWarrantyResult(mockData);
+                } else {
+                    document.getElementById('noResults').classList.add('active');
+                }
+            }, 1500);
+            
+            // Real implementation would look like:
+            /*
+            fetch('YOUR_N8N_WEBHOOK_URL', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ address: address })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').classList.remove('active');
+                if (data.found) {
+                    displayWarrantyResult(data);
+                } else {
+                    document.getElementById('noResults').classList.add('active');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('noResults').classList.add('active');
+            });
+            */
+        });
+        
+        function displayWarrantyResult(data) {
+            // Update customer info
+            document.getElementById('customerName').textContent = data.customerName;
+            document.getElementById('propertyAddress').textContent = data.address;
+            document.getElementById('warrantyNumber').textContent = data.warrantyNumber;
+            
+            // Format dates
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('installDate').textContent = data.installDate.toLocaleDateString('en-US', options);
+            document.getElementById('expiryDate').textContent = data.expiryDate.toLocaleDateString('en-US', options);
+            
+            // Calculate time remaining
+            const now = new Date();
+            const timeDiff = data.expiryDate - now;
+            const daysRemaining = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const yearsRemaining = Math.floor(daysRemaining / 365);
+            const monthsRemaining = Math.floor((daysRemaining % 365) / 30);
+            
+            // Update status based on time remaining
+            const statusBadge = document.getElementById('statusBadge');
+            let timeRemainingText = '';
+            let progressPercent = 0;
+            
+            if (daysRemaining <= 0) {
+                statusBadge.className = 'warranty-status-badge status-expired';
+                statusBadge.innerHTML = '<span>✗</span> Expired';
+                timeRemainingText = 'Expired';
+                progressPercent = 100;
+                
+                // Redirect to expired page after a delay
+                setTimeout(() => {
+                    window.location.href = 'warranty-expired.html?address=' + encodeURIComponent(data.address);
+                }, 3000);
+            } else if (daysRemaining <= 180) {
+                statusBadge.className = 'warranty-status-badge status-expiring';
+                statusBadge.innerHTML = '<span>⚠</span> Expiring Soon';
+                timeRemainingText = `${daysRemaining} days`;
+                progressPercent = ((5 * 365 - daysRemaining) / (5 * 365)) * 100;
+            } else {
+                statusBadge.className = 'warranty-status-badge status-active';
+                statusBadge.innerHTML = '<span>✓</span> Active Warranty';
+                timeRemainingText = `${yearsRemaining} year${yearsRemaining !== 1 ? 's' : ''}, ${monthsRemaining} month${monthsRemaining !== 1 ? 's' : ''}`;
+                progressPercent = ((5 * 365 - daysRemaining) / (5 * 365)) * 100;
+            }
+            
+            document.getElementById('timeRemaining').textContent = timeRemainingText;
+            document.getElementById('progressPercent').textContent = Math.round(progressPercent) + '% Used';
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+            
+            // Show result
+            document.getElementById('warrantyResult').classList.add('active');
+        }
+    </script>
+</body>
+</html>
